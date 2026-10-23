@@ -1,17 +1,21 @@
 # Pledge Invest Admin
 
-Dedicated administrator frontend for Pledge-Invest. This repository intentionally contains only the admin interface; investor-facing pages stay in `Ubnlord/Pledge-Invest`.
+Dedicated administrator frontend for Pledge-Invest. Investor-facing pages stay in `Ubnlord/Pledge-Invest`.
 
-## Included
-- Administrator sign-in and server-side admin-code verification flow
-- Overview, investor management, deposits, profit controls, investments, withdrawals, transactions, referrals, notifications, documents, support, settings, and audit log sections
-- Responsive React + TypeScript + Vite + Tailwind interface
+## Stack
+- React + TypeScript + Vite + Tailwind
+- Supabase Auth via `@supabase/supabase-js`
+- Shared Supabase Edge Function API: `/functions/v1/pledge-api`
 
-## Important integration requirement
-The admin panel was ported from the current Pledge-Invest interface and calls the existing `/api/admin/*` and `/api/public/*` endpoints through `@appdeploy/client`. For real operation, this frontend must be deployed/configured to use the **same authenticated Pledge-Invest backend and identity provider** as the main website. A separate deployment with a separate backend/database will not automatically share investors, sessions, balances, or admin permissions.
+## Shared project
+The admin frontend uses the same Supabase project as the investor website:
+`xypcqtqmekrjgytivmsm`.
 
-Before using financial controls in production, verify the hosting platform's SDK resolution, shared-backend routing, administrator allowlist, `PLEDGE_ADMIN_AUTH_CODE` secret, and server-side authorization. Never put the admin code or service credentials in frontend environment variables. Test deposit approvals, withdrawals, ledger updates, and audit logs in a non-production environment first.
+## Required configuration
+1. Enable and configure the intended Supabase Auth provider(s) and allowed redirect URLs.
+2. Set the Edge Function secret `PLEDGE_ADMIN_AUTH_CODE` to a strong private code. Never put it in frontend code or a Vite environment variable.
+3. Confirm `pledge-api` is deployed and the admin email allowlist in the function matches the intended administrator.
+4. Import and reconcile existing legacy investor records before enabling real financial operations.
 
 ## Development
-
-Install dependencies, then run `npm run dev`. The hosting environment must provide the `@appdeploy/client` package and the correct connection to the existing backend. `npm run build` should be run in that same configured environment before deployment.
+Install dependencies, then run `npm run dev`. Configure `VITE_SUPABASE_URL` and `VITE_SUPABASE_ANON_KEY` if using a different Supabase project. The public defaults point to the shared Pledge-Invest project.
