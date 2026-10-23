@@ -1,5 +1,5 @@
 import { useEffect,useState } from 'react';
-import { api,auth } from '@appdeploy/client';
+import { api,auth } from './lib/platform';
 import TradingViewTicker from './TradingViewTicker';
 import { Activity,BarChart3,Bell,CheckCircle2,CreditCard,FileText,Gift,Headphones,LayoutDashboard,LogOut,Percent,Settings,ShieldCheck,Users,Wallet } from 'lucide-react';
 const sections=[['Overview',LayoutDashboard],['Users',Users],['Deposits',Wallet],['Profit Control',Percent],['Investments',BarChart3],['Withdrawals',CreditCard],['Transactions',Activity],['Referrals',Gift],['Notifications',Bell],['Documents',FileText],['Support',Headphones],['Settings',Settings],['Audit Log',ShieldCheck]] as const;
