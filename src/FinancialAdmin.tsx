@@ -50,42 +50,42 @@ export default function FinancialAdmin({ section }: { section: string }) {
       setMessage(e?.response?.data?.error || 'Unable to save plan.');
     } finally { setBusy(false); }
   };
-  if (section === 'Withdrawals') return <section className="mt-5 rounded-2xl border bg-white p-6">
+  if (section === 'Withdrawals') return <section className="mt-5 rounded-2xl border border-slate-800 bg-[#0b192a] p-5 text-slate-100 shadow-lg shadow-black/10 sm:p-6">
     <h2 className="text-xl font-black">Withdrawal review</h2>
-    <p className="mt-2 text-sm text-slate-500">Funds are reserved at request time. Approval does not send money; rejection releases reserved USD once.</p>
+    <p className="mt-2 text-sm text-slate-400">Funds are reserved at request time. Approval does not send money; rejection releases reserved USD once.</p>
     {message && <p className="mt-3 text-sm font-semibold">{message}</p>}
-    <div className="mt-5 space-y-3">{items.length === 0 ? <div className="rounded-xl bg-slate-50 p-5 text-sm text-slate-500">No withdrawal requests.</div> : items.map((w: any, i: number) =>
-      <div key={w.operation_key || w.reference || i} className="rounded-xl border p-4">
+    <div className="mt-5 space-y-3">{items.length === 0 ? <div className="rounded-xl border border-slate-800 bg-[#0e2033] p-5 text-sm text-slate-400">No withdrawal requests.</div> : items.map((w: any, i: number) =>
+      <div key={w.operation_key || w.reference || i} className="rounded-xl border border-slate-800 bg-[#0d1d2f] p-4">
         <div className="font-bold">{w.name || w.email || w.user_id}</div>
-        <div className="mt-1 break-all text-xs text-slate-500">{w.email} · {w.reference || 'Withdrawal request'}</div>
+        <div className="mt-1 break-all text-xs text-slate-400">{w.email} · {w.reference || 'Withdrawal request'}</div>
         <div className="mt-2 font-black">{Number(w.amount || 0).toFixed(2)} USD · {w.status}</div>
         {w.status === 'Pending' && <div className="mt-3 flex flex-wrap gap-2">
           <button disabled={busy} onClick={() => decide(w, 'approved')} className="rounded-xl bg-emerald-600 px-4 py-2 text-sm font-bold text-white disabled:opacity-50">Approve for payout</button>
-          <button disabled={busy} onClick={() => decide(w, 'rejected')} className="rounded-xl border border-red-300 px-4 py-2 text-sm font-bold text-red-700 disabled:opacity-50">Reject & release</button>
+          <button disabled={busy} onClick={() => decide(w, 'rejected')} className="rounded-xl border border-red-400/40 px-4 py-2 text-sm font-bold text-red-200 disabled:opacity-50">Reject & release</button>
         </div>}
       </div>)}</div>
   </section>;
-  return <section className="mt-5 rounded-2xl border bg-white p-6">
+  return <section className="mt-5 rounded-2xl border border-slate-800 bg-[#0b192a] p-5 text-slate-100 shadow-lg shadow-black/10 sm:p-6">
     <h2 className="text-xl font-black">Server-configured investment plans</h2>
-    <p className="mt-2 text-sm text-slate-500">Updated terms apply to new investments only. Advertised rates are not guaranteed returns.</p>
+    <p className="mt-2 text-sm text-slate-400">Updated terms apply to new investments only. Advertised rates are not guaranteed returns.</p>
     {message && <p className="mt-3 text-sm font-semibold">{message}</p>}
     <div className="mt-5 grid gap-3 md:grid-cols-2">{items.map((p: any) =>
-      <div key={p.id} className="rounded-xl border p-4">
+      <div key={p.id} className="rounded-xl border border-slate-800 bg-[#0d1d2f] p-4">
         <h3 className="font-black">{p.name}</h3>
-        <p className="mt-1 text-sm text-slate-500">{Number(p.min).toLocaleString()}–{Number(p.max).toLocaleString()} USD · {p.rate} · {p.term}</p>
+        <p className="mt-1 text-sm text-slate-400">{Number(p.min).toLocaleString()}–{Number(p.max).toLocaleString()} USD · {p.rate} · {p.term}</p>
         <span className="text-xs font-bold">{p.active ? 'Active' : 'Inactive'}</span>
-        <button onClick={() => setEditing({ ...p, min_amount: p.min, max_amount: p.max, advertised_rate: Number(String(p.rate).replace('%', '')), duration_days: Number(String(p.term).match(/\d+/)?.[0] || 30) })} className="mt-3 block rounded-xl border px-4 py-2 text-sm font-bold">Edit plan</button>
+        <button onClick={() => setEditing({ ...p, min_amount: p.min, max_amount: p.max, advertised_rate: Number(String(p.rate).replace('%', '')), duration_days: Number(String(p.term).match(/\d+/)?.[0] || 30) })} className="mt-3 block rounded-xl border border-slate-700 px-4 py-2 text-sm font-bold text-slate-200 hover:bg-slate-800">Edit plan</button>
       </div>)}</div>
-    {editing && <div className="mt-5 rounded-xl border bg-slate-50 p-4">
+    {editing && <div className="mt-5 rounded-xl border border-slate-800 bg-[#0e2033] p-4">
       <h3 className="font-black">Edit {editing.name}</h3>
       <div className="mt-3 grid gap-3 sm:grid-cols-2">
-        <label>Minimum USD<input type="number" value={editing.min_amount} onChange={e => setEditing((v: any) => ({ ...v, min_amount: e.target.value }))} className="mt-1 w-full rounded-xl border px-3 py-2" /></label>
-        <label>Maximum USD<input type="number" value={editing.max_amount} onChange={e => setEditing((v: any) => ({ ...v, max_amount: e.target.value }))} className="mt-1 w-full rounded-xl border px-3 py-2" /></label>
-        <label>Advertised rate (%)<input type="number" min="0" step="0.01" value={editing.advertised_rate} onChange={e => setEditing((v: any) => ({ ...v, advertised_rate: e.target.value }))} className="mt-1 w-full rounded-xl border px-3 py-2" /></label>
-        <label>Duration (days)<input type="number" min="1" value={editing.duration_days} onChange={e => setEditing((v: any) => ({ ...v, duration_days: e.target.value }))} className="mt-1 w-full rounded-xl border px-3 py-2" /></label>
+        <label>Minimum USD<input type="number" value={editing.min_amount} onChange={e => setEditing((v: any) => ({ ...v, min_amount: e.target.value }))} className="mt-1 w-full rounded-xl border border-slate-700 bg-[#071525] px-3 py-2 text-slate-100" /></label>
+        <label>Maximum USD<input type="number" value={editing.max_amount} onChange={e => setEditing((v: any) => ({ ...v, max_amount: e.target.value }))} className="mt-1 w-full rounded-xl border border-slate-700 bg-[#071525] px-3 py-2 text-slate-100" /></label>
+        <label>Advertised rate (%)<input type="number" min="0" step="0.01" value={editing.advertised_rate} onChange={e => setEditing((v: any) => ({ ...v, advertised_rate: e.target.value }))} className="mt-1 w-full rounded-xl border border-slate-700 bg-[#071525] px-3 py-2 text-slate-100" /></label>
+        <label>Duration (days)<input type="number" min="1" value={editing.duration_days} onChange={e => setEditing((v: any) => ({ ...v, duration_days: e.target.value }))} className="mt-1 w-full rounded-xl border border-slate-700 bg-[#071525] px-3 py-2 text-slate-100" /></label>
         <label className="flex items-center gap-2 sm:col-span-2"><input type="checkbox" checked={Boolean(editing.active)} onChange={e => setEditing((v: any) => ({ ...v, active: e.target.checked }))} />Active for new investments</label>
       </div>
-      <div className="mt-4 flex gap-2"><button disabled={busy} onClick={savePlan} className="rounded-xl bg-indigo-600 px-4 py-2 font-bold text-white disabled:opacity-50">Save plan</button><button onClick={() => setEditing(null)} className="rounded-xl border px-4 py-2 font-bold">Cancel</button></div>
+      <div className="mt-4 flex gap-2"><button disabled={busy} onClick={savePlan} className="rounded-xl bg-cyan-400 px-4 py-2 font-bold text-slate-950 disabled:opacity-50">Save plan</button><button onClick={() => setEditing(null)} className="rounded-xl border px-4 py-2 font-bold">Cancel</button></div>
     </div>}
   </section>;
 }
