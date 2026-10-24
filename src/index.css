@@ -13,3 +13,23 @@ body { color: #0f172a; }
 button, a, input, select, textarea { -webkit-tap-highlight-color: transparent; }
 button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-visible { outline: 3px solid rgba(99, 102, 241, .45); outline-offset: 2px; }
 input, select, textarea { max-width: 100%; }
+
+/* Global Beldex-inspired operations console: dark navy surfaces, cyan accents, mobile-first controls. */
+.admin-console { color: #e2e8f0; }
+.admin-console main { min-width: 0; }
+.admin-console table { border-collapse: collapse; }
+.admin-console th { color: #71839b; font-size: .68rem; font-weight: 800; letter-spacing: .09em; text-transform: uppercase; }
+.admin-console td { color: #c4d0df; }
+.admin-console input:not([type=checkbox]), .admin-console select, .admin-console textarea { background-color: #071525; border-color: #26384d; color: #e2e8f0; }
+.admin-console input::placeholder, .admin-console textarea::placeholder { color: #71839b; }
+.admin-console input[type=checkbox] { accent-color: #22c5e5; }
+.admin-console button { transition: background-color .15s ease, border-color .15s ease, color .15s ease; }
+.admin-console button:focus-visible, .admin-console a:focus-visible, .admin-console input:focus-visible, .admin-console select:focus-visible, .admin-console textarea:focus-visible { outline: 2px solid #22c5e5; outline-offset: 2px; }
+.admin-console .text-slate-500 { color: #8395aa; }
+.admin-console .text-slate-600 { color: #9aabc0; }
+.admin-console .border-b { border-color: #1c2b3d; }
+@media (max-width: 767px) {
+ .admin-console .min-w-0 { min-width: 0; }
+ .admin-console table { font-size: .82rem; }
+ .admin-console td, .admin-console th { padding: .7rem .55rem; }
+}
