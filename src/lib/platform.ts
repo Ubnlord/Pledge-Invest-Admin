@@ -2,7 +2,7 @@ import { createClient } from '@supabase/supabase-js';
 
 const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL || 'https://xypcqtqmekrjgytivmsm.supabase.co';
 const SUPABASE_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY || 'sb_publishable_Rx1WAH_4paQYPOTP1XeEPA_YTnX8yMM';
-export const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
+export const supabase = createClient(SUPABASE_URL, SUPABASE_KEY, { auth: { storageKey: 'pledge-invest-admin-auth-token' } });
 
 type ApiResponse<T = any> = { data: T };
 async function request<T = any>(method: string, path: string, body?: unknown): Promise<ApiResponse<T>> {
@@ -66,7 +66,7 @@ export const auth = {
     if (error) throw error;
   },
   isSignedIn() {
-    return Boolean(localStorage.getItem('sb-xypcqtqmekrjgytivmsm-auth-token'));
+    return Boolean(localStorage.getItem('pledge-invest-admin-auth-token'));
   },
 };
 export const notifications = {
