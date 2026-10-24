@@ -13,8 +13,8 @@ The admin frontend uses the same Supabase project as the investor website:
 
 ## Required configuration
 1. Enable and configure the intended Supabase Auth provider(s) and allowed redirect URLs.
-2. Set the Edge Function secret `PLEDGE_ADMIN_AUTH_CODE` to a strong private code. Never put it in frontend code or a Vite environment variable.
-3. Confirm `pledge-api` is deployed and the admin email allowlist in the function matches the intended administrator.
+2. Set the Edge Function secret `PLEDGE_ADMIN_AUTH_CODE` to a strong private code. The admin login requires this code in addition to the allowlisted Supabase email/password. Never put it in frontend code or a Vite environment variable. If this secret is absent, admin login intentionally fails closed.
+3. Confirm `pledge-api` is deployed and the admin email allowlist in the function matches the intended administrator. The function uses a 15-minute rate limit after five failed security-code attempts.
 4. Import and reconcile existing legacy investor records before enabling real financial operations.
 
 ## Development
